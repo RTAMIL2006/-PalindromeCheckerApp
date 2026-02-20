@@ -1,43 +1,34 @@
+import java.util.Stack;
+
 public class PalindromeCheckerApp {
+
     public static void main(String[] args) {
 
-        // Welcome Message
-        System.out.println("=================================");
-        System.out.println("     Palindrome Checker App      ");
-        System.out.println("=================================");
+        // Original String
+        String word = "madam";
 
-        // Application Details
-        System.out.println("Version: 1.0.0");
-        System.out.println("Author: R TAMILSELVAN");
-        System.out.println("Branch: CSE (AI & ML)");
+        // Create Stack
+        Stack<Character> stack = new Stack<>();
 
-        System.out.println("---------------------------------");
-        System.out.println("Application Started Successfully!");
-        System.out.println("---------------------------------");
-
-        String word = "radar";
-
-        // Convert string to character array
-        char[] characters = word.toCharArray();
-
-        // Two-pointer approach
-        int start = 0;
-        int end = characters.length - 1;
+        // Push characters into stack
+        for (int i = 0; i < word.length(); i++) {
+            stack.push(word.charAt(i));
+        }
 
         boolean isPalindrome = true;
 
-        while (start < end) {
+        // Pop from stack and compare
+        for (int i = 0; i < word.length(); i++) {
 
-            if (characters[start] != characters[end]) {
+            char poppedChar = stack.pop();
+
+            if (word.charAt(i) != poppedChar) {
                 isPalindrome = false;
                 break;
             }
-
-            start++;
-            end--;
         }
 
-        // Display result
+        // Print result
         if (isPalindrome) {
             System.out.println("The given string \"" + word + "\" is a Palindrome.");
         } else {
