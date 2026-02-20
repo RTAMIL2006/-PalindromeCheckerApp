@@ -26,6 +26,9 @@ public class PalindromeCheckerApp {
             System.out.println("The given string \"" + word + "\" is a Palindrome.");
         } else {
             System.out.println("The given string \"" + word + "\" is NOT a Palindrome.");
+
+
+
         }
     }
 }
