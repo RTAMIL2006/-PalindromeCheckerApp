@@ -15,7 +15,17 @@ public class PalindromeCheckerApp {
         System.out.println("Application Started Successfully!");
         System.out.println("---------------------------------");
 
-        // Flow continues to next use case
-        // (Palindrome validation logic will be added in UC2)
+        String word = "madam";
+        String reversed = "";
+
+        for (int i = word.length() - 1; i >= 0; i--) {
+            reversed = reversed + word.charAt(i);
+        }
+
+        if (word.equals(reversed)) {
+            System.out.println("The given string \"" + word + "\" is a Palindrome.");
+        } else {
+            System.out.println("The given string \"" + word + "\" is NOT a Palindrome.");
+        }
     }
 }
