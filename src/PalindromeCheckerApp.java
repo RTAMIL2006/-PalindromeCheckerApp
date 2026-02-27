@@ -1,13 +1,20 @@
 import java.util.*;
 
-interface PalindromeStrategy {
-    boolean isPalindrome(String input);
-}
+public class PalindromeCheckerApp {
 
-class StackStrategy implements PalindromeStrategy {
+    public static boolean twoPointer(String input) {
+        String str = input.replaceAll("\\s+", "").toLowerCase();
+        int left = 0, right = str.length() - 1;
 
-    public boolean isPalindrome(String input) {
+        while (left < right) {
+            if (str.charAt(left) != str.charAt(right)) return false;
+            left++;
+            right--;
+        }
+        return true;
+    }
 
+    public static boolean stackMethod(String input) {
         String str = input.replaceAll("\\s+", "").toLowerCase();
         Stack<Character> stack = new Stack<>();
 
@@ -16,85 +23,46 @@ class StackStrategy implements PalindromeStrategy {
         }
 
         for (char ch : str.toCharArray()) {
-            if (ch != stack.pop()) {
-                return false;
-            }
+            if (ch != stack.pop()) return false;
         }
-
         return true;
     }
-}
 
-class DequeStrategy implements PalindromeStrategy {
-
-    public boolean isPalindrome(String input) {
-
-        String str = input.replaceAll("\\s+", "").toLowerCase();
-        Deque<Character> deque = new ArrayDeque<>();
-
-        for (char ch : str.toCharArray()) {
-            deque.add(ch);
-        }
-
-        while (deque.size() > 1) {
-            if (deque.removeFirst() != deque.removeLast()) {
-                return false;
-            }
-        }
-
-        return true;
+    public static boolean recursionMethod(String str, int start, int end) {
+        if (start >= end) return true;
+        if (str.charAt(start) != str.charAt(end)) return false;
+        return recursionMethod(str, start + 1, end - 1);
     }
-}
-
-class PalindromeContext {
-
-    private PalindromeStrategy strategy;
-
-    public void setStrategy(PalindromeStrategy strategy) {
-        this.strategy = strategy;
-    }
-
-    public boolean check(String input) {
-        if (strategy == null) {
-            throw new IllegalStateException("Strategy not set!");
-        }
-        return strategy.isPalindrome(input);
-    }
-}
-
-public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
-
         System.out.print("Enter a string: ");
         String input = sc.nextLine();
 
-        System.out.println("Choose Strategy:");
-        System.out.println("1. Stack");
-        System.out.println("2. Deque");
+        String normalized = input.replaceAll("\\s+", "").toLowerCase();
 
-        int choice = sc.nextInt();
+        long start, end;
 
-        PalindromeContext context = new PalindromeContext();
+        start = System.nanoTime();
+        boolean result1 = twoPointer(input);
+        end = System.nanoTime();
+        long time1 = end - start;
 
-        if (choice == 1) {
-            context.setStrategy(new StackStrategy());
-        } else if (choice == 2) {
-            context.setStrategy(new DequeStrategy());
-        } else {
-            System.out.println("Invalid choice!");
-            return;
-        }
+        start = System.nanoTime();
+        boolean result2 = stackMethod(input);
+        end = System.nanoTime();
+        long time2 = end - start;
 
-        boolean result = context.check(input);
+        start = System.nanoTime();
+        boolean result3 = recursionMethod(normalized, 0, normalized.length() - 1);
+        end = System.nanoTime();
+        long time3 = end - start;
 
-        if (result) {
-            System.out.println("The string is a Palindrome");
-        } else {
-            System.out.println("The string is NOT a Palindrome");
-        }
+        System.out.println("\nResults:");
+        System.out.println("Two Pointer: " + result1 + " | Time: " + time1 + " ns");
+        System.out.println("Stack Method: " + result2 + " | Time: " + time2 + " ns");
+        System.out.println("Recursion: " + result3 + " | Time: " + time3 + " ns");
 
         sc.close();
     }
