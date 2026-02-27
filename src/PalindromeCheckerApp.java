@@ -1,40 +1,41 @@
-import java.util.Deque;
-import java.util.ArrayDeque;
+import java.util.Scanner;
 
 public class PalindromeCheckerApp {
+    public static boolean isPalindrome(String str, int start, int end) {
+
+        // Base condition: if pointers cross or meet
+        if (start >= end) {
+            return true;
+        }
+
+        // If characters don't match
+        if (str.charAt(start) != str.charAt(end)) {
+            return false;
+        }
+
+        // Recursive call
+        return isPalindrome(str, start + 1, end - 1);
+    }
 
     public static void main(String[] args) {
 
-        // Original String
-        String word = "radar";
+        Scanner sc = new Scanner(System.in);
 
-        // Create Deque
-        Deque<Character> deque = new ArrayDeque<>();
+        System.out.print("Enter a string: ");
+        String input = sc.nextLine();
 
-        // Insert characters into deque
-        for (int i = 0; i < word.length(); i++) {
-            deque.addLast(word.charAt(i));
-        }
+        // Remove spaces and make lowercase (optional but recommended)
+        input = input.replaceAll("\\s+", "").toLowerCase();
 
-        boolean isPalindrome = true;
+        boolean result = isPalindrome(input, 0, input.length() - 1);
 
-        // Compare front and rear elements
-        while (deque.size() > 1) {
-
-            char front = deque.removeFirst(); // Remove from front
-            char rear = deque.removeLast();   // Remove from rear
-
-            if (front != rear) {
-                isPalindrome = false;
-                break;
-            }
-        }
-
-        // Print result
-        if (isPalindrome) {
-            System.out.println("The given string \"" + word + "\" is a Palindrome.");
+        if (result) {
+            System.out.println("The string is a Palindrome");
         } else {
-            System.out.println("The given string \"" + word + "\" is NOT a Palindrome.");
+            System.out.println("The string is NOT a Palindrome");
         }
+
+        sc.close();
     }
+
 }
